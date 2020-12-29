@@ -3,13 +3,13 @@
         <section id="menu1">
             <ul>
                 <li>
-                    <a class="btn btn-success btn-sm ml-3" href="cart.html">
+                    <a class="btn btn-success btn-sm ml-3" href="cart.php">
                         <i class="fa fa-shopping-cart"></i>
                         <span class="badge badge-light">3</span>
                     </a>
                 </li>
-                <li><a href="">Iniciar sesión</a></li>
-                <li><a href="">Registrarse</a></li>
+                <li><a href="login.php">Iniciar sesión</a></li>
+                <li><a href="register.php">Registrarse</a></li>
             </ul>
         </section>
         <section id="menu2">

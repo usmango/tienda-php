@@ -1,6 +1,9 @@
 * {
   padding: 0;
   margin: 0;
+}
+
+ul {
   list-style: none;
 }
 
@@ -30,9 +33,6 @@ header nav #menu1 {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   font-size: 12px;
 }
 
@@ -40,6 +40,9 @@ header nav #menu1 ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 header nav #menu1 ul li {
@@ -58,15 +61,15 @@ header nav #menu2 {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 header nav #menu2 ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 header nav #menu2 ul li {
@@ -82,7 +85,17 @@ header nav #menu2 img {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
-  width: 200px;
+  width: 180px;
+}
+
+main #login {
+  padding: 5rem;
+  text-align: center;
+}
+
+main #register {
+  padding: 5rem;
+  text-align: center;
 }
 
 main #productos {
