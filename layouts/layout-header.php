@@ -1,8 +1,6 @@
 <?php
-
-if(!isset($_SESSION)) { 
-    session_start(); 
-} 
+session_start();
+$ssid = session_id();
 
 require_once('db/db.php');
 
@@ -19,7 +17,16 @@ if(isset($_SESSION['id'])) {
     $a1 = $db->query($sql);
     $consulta=$a1->fetch_object();
 
+    $sql3 = "UPDATE cart SET user_id='$id' WHERE ssid='$ssid'";
+    $db->query($sql3);
+
 }
+
+$sql1 = "SELECT COUNT(p_id) as 'numero_de_articulos' FROM cart WHERE ssid='$ssid' OR user_id='$id'";
+$b1 = $db->query($sql1);
+$consultaB1 = $b1->fetch_object();
+
+$numDeArt = $consultaB1->numero_de_articulos;
 
 ?>
 
@@ -30,7 +37,7 @@ if(isset($_SESSION['id'])) {
                 <li>
                     <a class="btn btn-success btn-sm ml-3" href="cart.php">
                         <i class="fa fa-shopping-cart"></i>
-                        <span class="badge badge-light">3</span>
+                        <span class="badge badge-light"><?= $numDeArt ?></span>
                     </a>
                 </li>
                 <?php if(isset($id)): ?>

@@ -26,12 +26,13 @@ if (isset($_POST['register'])) {
 		$a1 = $db->query($sql1);
 		$consulta=$a1->fetch_object();
 
-		if(mysqli_num_rows($a1) > 0){
+		if(mysqli_num_rows($a1) == 0){
 			$sql2 = "INSERT INTO user_info (first_name, last_name, email, password)
 					values('$name', '$surname', '$email', '$password')";
 			
 			$db->query($sql2);
-
+		} else {
+			
 			$errores['existe'] = 'Este usuario ya esta registrado';
 		}
 

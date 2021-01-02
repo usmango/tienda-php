@@ -18,6 +18,24 @@ $sql2 = "SELECT * FROM products LIMIT $primero, $cantidadDeProductos";
 $a2 = $db->query($sql2);
 $consulta = $a2->fetch_object();
 
+if(isset($_POST['add'])){
+  $pID = $_POST['add'];
+
+  $sql3 = "SELECT * FROM cart WHERE p_id='$pID' and ssid='$ssid'";
+  $b2 = $db->query($sql3);
+  $con = $b2->fetch_object();
+
+  if(mysqli_num_rows($b2)>0) {
+    $sql4 = "UPDATE cart SET qty=qty+1 where p_id='$pID' and ssid='$ssid'";
+    $db->query($sql4);
+  }else {
+    $sql4 = "INSERT INTO cart (p_id, ssid, qty) VALUE ('$pID', '$ssid', '1')";
+    $db->query($sql4);
+  }
+  $url = $_SERVER['HTTP_REFERER'];
+  header("Location: $url");
+}
+
 ?>
 
 <section id="productos">
@@ -32,7 +50,7 @@ $consulta = $a2->fetch_object();
 
     <p>€ <?= $consulta->product_price ?></p>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-      <button value="<?= $consulta->product_id ?>" class="btn btn-primary" name="anadir">Añadir al carrito</button>
+      <button value="<?= $consulta->product_id ?>" class="btn btn-primary" name="add">Añadir al carrito</button>
     </form>
 
     </article>

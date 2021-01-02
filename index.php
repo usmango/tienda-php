@@ -13,6 +13,7 @@
     
 <?php require('layouts/layout-header.php'); ?>
 
+<?php require('layouts/layout-test.php'); ?>
 
 <?php require('layouts/layout-footer.php'); ?>
 
