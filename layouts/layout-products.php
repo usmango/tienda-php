@@ -1,5 +1,4 @@
 <?php
-require_once('db/db.php');
 
 $sql = "SELECT * from products";
 $a1 = $db->query($sql);

@@ -1,7 +1,5 @@
 <?php
 
-require_once('db/db.php');
-
 $registrado = false;
 
 if (isset($_POST['register'])) {
@@ -24,10 +22,18 @@ if (isset($_POST['register'])) {
 
 	if(!isset($errores)) {
 
-		$sql = "INSERT INTO user_info (first_name, last_name, email, password)
-				values('$name', '$surname', '$email', '$password')";
-		
-		$db->query($sql);
+		$sql1 = "SELECT user_id, email, password FROM user_info WHERE email='$email'";
+		$a1 = $db->query($sql1);
+		$consulta=$a1->fetch_object();
+
+		if(mysqli_num_rows($a1) > 0){
+			$sql2 = "INSERT INTO user_info (first_name, last_name, email, password)
+					values('$name', '$surname', '$email', '$password')";
+			
+			$db->query($sql2);
+
+			$errores['existe'] = 'Este usuario ya esta registrado';
+		}
 
 	};
 
@@ -58,6 +64,23 @@ if (isset($_POST['register'])) {
 		<br>
 		<button class="btn btn-lg btn-primary btn-block" type="submit" name="register">Registrarse</button>
 	</form>
+
+	<ul>
+  <?php 
+  
+  if(isset($errores)){
+    foreach($errores as $value) {
+    
+  ?>   
+
+  <li class="alert alert-danger"><?= $value; ?></li>
+  
+  <?php 
+    }
+  }
+  
+  ?>
+</ul>
 
 	<?php endif ?>
 
