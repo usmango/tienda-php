@@ -13,6 +13,11 @@
     
 <?php require('layouts/layout-header.php'); ?>
 
+<main class="centrado">
+    
+<?php require('layouts/layout-profile-admin.php'); ?>
+
+</main>
 
 <?php require('layouts/layout-footer.php'); ?>
 

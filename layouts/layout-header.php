@@ -20,13 +20,23 @@ if(isset($_SESSION['id'])) {
     $sql3 = "UPDATE cart SET user_id='$id' WHERE ssid='$ssid'";
     $db->query($sql3);
 
+    
+
+    $sql1 = "SELECT COUNT(p_id) as 'numero_de_articulos' FROM cart WHERE ssid='$ssid' OR user_id='$id'";
+    $b1 = $db->query($sql1);
+    $consultaB1 = $b1->fetch_object();
+
+    $numDeArt = $consultaB1->numero_de_articulos;
+
+} else {
+
+    $sql1 = "SELECT COUNT(p_id) as 'numero_de_articulos' FROM cart WHERE ssid='$ssid'";
+    $b1 = $db->query($sql1);
+    $consultaB1 = $b1->fetch_object();
+    
+    $numDeArt = $consultaB1->numero_de_articulos;
+
 }
-
-$sql1 = "SELECT COUNT(p_id) as 'numero_de_articulos' FROM cart WHERE ssid='$ssid' OR user_id='$id'";
-$b1 = $db->query($sql1);
-$consultaB1 = $b1->fetch_object();
-
-$numDeArt = $consultaB1->numero_de_articulos;
 
 ?>
 

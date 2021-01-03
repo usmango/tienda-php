@@ -126,4 +126,39 @@ main #productos #navegacion {
       -ms-flex: 1 0 100%;
           flex: 1 0 100%;
 }
+
+main #profile .vertical-nav {
+  min-width: 17rem;
+  width: 17rem;
+  height: 100vh;
+  position: fixed;
+  -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+main #profile .page-content {
+  width: calc(100% - 17rem);
+  margin-left: 17rem;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+@media (max-width: 768px) {
+  main #profile #sidebar {
+    margin-left: -17rem;
+  }
+  main #profile #sidebar.active {
+    margin-left: 0;
+  }
+  main #profile #content {
+    width: 100%;
+    margin: 0;
+  }
+  main #profile #content.active {
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+  }
+}
 /*# sourceMappingURL=style.css.map */
