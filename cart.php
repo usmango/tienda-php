@@ -16,7 +16,7 @@
 
 <main class="centrado">
     
-    <?php require('layouts/layout-products.php'); ?>
+    <?php require('layouts/layout-cart.php'); ?>
 
 </main>
 

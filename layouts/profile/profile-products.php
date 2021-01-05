@@ -6,7 +6,7 @@ $sql = "SELECT * from products";
 $a1 = $db->query($sql);
 $num_row = $a1->num_rows;
 
-$cantidadDeProductos = 15;
+$cantidadDeProductos = 8;
 
 $num_paginas = $num_row/$cantidadDeProductos;
 $num_paginas = ceil($num_paginas);
@@ -22,10 +22,10 @@ $consulta = $a2->fetch_object();
 
 ?>
 
-<form action="profile.php" method="GET">
+<form action="profile.php" method="GET" class="text-right">
     <button class="btn btn-success" name="page" value="addProduct">Añadir producto</button>
 </form>
-<section id="productos">
+<section id="productosProfile">
 
 
 <?php while($consulta!=null): ?>
@@ -36,8 +36,8 @@ $consulta = $a2->fetch_object();
 
   <h4><?= $consulta->product_title ?></h4>
 
-  <p>€ <?= $consulta->product_price ?></p>
-  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+  <p><?= $consulta->product_price ?> €</p>
+  <form action="profile.php" method="GET">
     <button value="<?= $consulta->product_id ?>" class="btn btn-primary" name="edit">Editar</button>
   </form>
 
@@ -51,31 +51,31 @@ endwhile
 ?>
 
 <!-- PAGINACIÓN -->
-<nav id="navegacion" aria-label="Page navigation example">
-<ul class="pagination">
-<?php if($pagina_actual>1): ?>
-<li class="page-item">
-  <a class="page-link" href="?page=products&pages=<?=$pagina_actual-1?>" aria-label="Previous">
-    <span aria-hidden="true">&laquo;</span>
-    <span class="sr-only">Previous</span>
-  </a>
-</li>
-<?php endif ?>
-<?php for ($i=1; $i <= $num_paginas; $i++): ?>
-    
-<li class="page-item"><a class="page-link" href="?page=products&pages=<?=$i?>"><?= $i ?></a></li>
+  <nav id="navegacion" class="d-flex justify-content-end">
+  <ul class="pagination">
+  <?php if($pagina_actual>1): ?>
+  <li class="page-item">
+    <a class="page-link" href="?page=products&pages=<?=$pagina_actual-1?>" aria-label="Previous">
+      <span aria-hidden="true">&laquo;</span>
+      <span class="sr-only">Previous</span>
+    </a>
+  </li>
+  <?php endif ?>
+  <?php for ($i=1; $i <= $num_paginas; $i++): ?>
+      
+  <li class="page-item"><a class="page-link" href="?page=products&pages=<?=$i?>"><?= $i ?></a></li>
 
-<?php endfor ?>
-<?php if($pagina_actual<$num_paginas): ?>
-<li class="page-item">
-  <a class="page-link" href="?page=products&pages=<?=$pagina_actual+1?>" aria-label="Next">
-    <span aria-hidden="true">&raquo;</span>
-    <span class="sr-only">Next</span>
-  </a>
-</li>
-<?php endif ?>
-</ul>
-</nav>
+  <?php endfor ?>
+  <?php if($pagina_actual<$num_paginas): ?>
+  <li class="page-item">
+    <a class="page-link" href="?page=products&pages=<?=$pagina_actual+1?>" aria-label="Next">
+      <span aria-hidden="true">&raquo;</span>
+      <span class="sr-only">Next</span>
+    </a>
+  </li>
+  <?php endif ?>
+  </ul>
+  </nav>
 <!-- FIN DE LA PAGINACIÓN -->
 
 

@@ -68,9 +68,14 @@ if(isset($_GET['addProduct'])) {
   if($_GET['page'] == 'preferences') require('profile/profile-preferences.php'); 
   if($_GET['page'] == 'products') require('profile/profile-products.php'); 
   if($_GET['page'] == 'users') require('profile/profile-users.php'); 
-  if($_GET['page'] == 'addProduct') require('profile/profile-products-add.php'); 
+  if($_GET['page'] == 'addUser') require('profile/profile-users-add.php');
+  if($_GET['page'] == 'addProduct') require('profile/profile-products-add.php');
 
-}  
+}  else {
+  if(isset($_GET['edit'])) require('profile/profile-products-edit.php');
+  if(isset($_GET['editUser'])) require('profile/profile-users-edit.php');
+}
+
 ?>
 
 </div>

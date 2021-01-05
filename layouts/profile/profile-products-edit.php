@@ -1,82 +1,100 @@
 <?php
-
+$url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 if(!isset($_SESSION['id'])) header('Location: .');
 
-$sql = "SELECT * from products";
+$idproducto = $_GET['edit'];
+
+$sql = "SELECT * from products WHERE product_id='$idproducto'";
 $a1 = $db->query($sql);
-$num_row = $a1->num_rows;
+$consultaProductoEditar = $a1->fetch_object();
 
-$cantidadDeProductos = 15;
+$sqlCategorias = "SELECT * FROM categories";
+$c1Categories = $db->query($sqlCategorias);
+$consultaCategorias = $c1Categories->fetch_object();
 
-$num_paginas = $num_row/$cantidadDeProductos;
-$num_paginas = ceil($num_paginas);
+$sqlBrands = "SELECT * FROM brands";
+$c1Brands = $db->query($sqlBrands);
+$consultaBrands = $c1Brands->fetch_object();
 
-if(isset($_GET['pages']) && $_GET['pages']>=1) $pagina_actual = $_GET['pages'];
-else $pagina_actual = 1;
+if(isset($_POST['removeIt'])) {
+    $sqlRemove = "DELETE FROM products WHERE product_id='$idproducto'";
+    $db->query($sqlRemove);
+    header('Location: profile.php?page=products');
+}
 
-$primero = ($cantidadDeProductos*$pagina_actual)-$cantidadDeProductos;
 
-$sql2 = "SELECT * FROM products LIMIT $primero, $cantidadDeProductos";
-$a2 = $db->query($sql2);
-$consulta = $a2->fetch_object();
+if(isset($_POST['editIt'])) {
+    $target_dir = "C:/xampp/htdocs/tienda-online/img/product_images/";
+    $fileTmpPath = $_FILES['fileToUpload']['tmp_name'];
+
+    if(!empty($_POST['name'])) $name=$_POST['name']; else $name=$consultaProductoEditar->product_title;
+    if(!empty($_POST['categories'])) $categories=$_POST['categories']; else $categories=$consultaProductoEditar->product_cat;
+    if(!empty($_POST['brands'])) $brands=$_POST['brands']; else $brands=$consultaProductoEditar->product_brand;
+    if(!empty($_POST['price'])) $price=$_POST['price']; else $price=$consultaProductoEditar->product_price;
+    if(!empty($_POST['description'])) $description=$_POST['description']; else $description=$consultaProductoEditar->product_desc;
+    if(!empty($_FILES["fileToUpload"]["name"])) $file=$_FILES["fileToUpload"]["name"]; else $file=$consultaProductoEditar->product_image;
+
+    $sqlUpdate = "UPDATE products SET product_title='$name', product_cat='$categories', product_brand='$brands', product_price='$price', product_desc='$description',
+     product_image='$file' WHERE product_id='$idproducto'";
+    $db->query($sqlUpdate);
+
+    if(isset($_FILES["fileToUpload"]["name"])){
+        $dest_path = $target_dir . $file;
+        move_uploaded_file($fileTmpPath, $dest_path);
+        header('Location: profile.php?page=products');
+    } else {
+        header('Location: profile.php?page=products');
+    }
+}
+
+
 
 ?>
 
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <button class="btn btn-success" name="addProduct">Añadir producto</button>
-</form>
-<section id="productos">
+
+<section id="profile">
 
 
-<?php while($consulta!=null): ?>
+<form action="<?= $url ?>" method="POST" enctype="multipart/form-data" class="p-5">
 
-<article>
+<label for="name">Nombre del producto</label>
+<input type="text" name="name" class="form-control" value="<?= $consultaProductoEditar->product_title ?>">
 
-  <img src="img/product_images/<?= $consulta->product_image ?>" alt="">
+<label for="categories">Categoria del producto</label>
+<select name="categories" class="form-control">
+<?php while($consultaCategorias!=null): ?>
+    <?php if($consultaProductoEditar->product_cat==$consultaCategorias->cat_id) $cSelected='selected'; else $cSelected=''; ?>
+  <option value="<?= $consultaCategorias->cat_id ?>" <?= $cSelected ?>><?= $consultaCategorias->cat_title ?></option>
 
-  <h4><?= $consulta->product_title ?></h4>
+<?php
+$consultaCategorias = $c1Categories->fetch_object();
+endwhile ?>
+</select>
 
-  <p>€ <?= $consulta->product_price ?></p>
-  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <button value="<?= $consulta->product_id ?>" class="btn btn-primary" name="edit">Editar</button>
-  </form>
-
-</article>
-
-
+<label for="brands">Marca del producto</label>
+<select name="brands" class="form-control">
+<?php while($consultaBrands!=null): ?>
+    <?php if($consultaProductoEditar->product_brand==$consultaBrands->brand_id) $bSelected='selected'; else $bSelected=''; ?>
+  <option value="<?= $consultaBrands->brand_id ?>" <?= $bSelected ?>><?= $consultaBrands->brand_title ?></option>
 
 <?php 
-$consulta = $a2->fetch_object();
-endwhile
-?>
+$consultaBrands = $c1Brands->fetch_object();
+endwhile ?>
+</select>
 
-<!-- PAGINACIÓN -->
-<nav id="navegacion" aria-label="Page navigation example">
-<ul class="pagination">
-<?php if($pagina_actual>1): ?>
-<li class="page-item">
-  <a class="page-link" href="?page=products&pages=<?=$pagina_actual-1?>" aria-label="Previous">
-    <span aria-hidden="true">&laquo;</span>
-    <span class="sr-only">Previous</span>
-  </a>
-</li>
-<?php endif ?>
-<?php for ($i=1; $i <= $num_paginas; $i++): ?>
-    
-<li class="page-item"><a class="page-link" href="?page=products&pages=<?=$i?>"><?= $i ?></a></li>
+<label for="price">Precio del producto</label>
+<input type="number" name="price" min="0" max="9999" class="form-control" value="<?= $consultaProductoEditar->product_price ?>">
 
-<?php endfor ?>
-<?php if($pagina_actual<$num_paginas): ?>
-<li class="page-item">
-  <a class="page-link" href="?page=products&pages=<?=$pagina_actual+1?>" aria-label="Next">
-    <span aria-hidden="true">&raquo;</span>
-    <span class="sr-only">Next</span>
-  </a>
-</li>
-<?php endif ?>
-</ul>
-</nav>
-<!-- FIN DE LA PAGINACIÓN -->
+<label for="description">Descripcion del producto</label>
+<textarea name="description" cols="30" rows="10" class="form-control" value="<?= $consultaProductoEditar->product_description ?>"></textarea>
+
+<label for="fileToUpload">Imagen del producto</label>
+<input type="file" name="fileToUpload" class="form-control-file">
+
+<input type="submit" name="editIt" value="Actualizar producto" class="form-control btn btn-success mt-2">
+<input type="submit" name="removeIt" value="Eliminar producto" class="form-control btn btn-danger mt-1">
+
+</form>
 
 
 </section>

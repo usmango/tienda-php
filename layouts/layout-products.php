@@ -64,7 +64,7 @@ endwhile
 
 <!-- PAGINACIÓN -->
 <nav id="navegacion" aria-label="Page navigation example">
-  <ul class="pagination">
+  <ul class="pagination d-flex justify-content-center">
     <?php if($pagina_actual>1): ?>
     <li class="page-item">
       <a class="page-link" href="?page=<?=$pagina_actual-1?>" aria-label="Previous">
