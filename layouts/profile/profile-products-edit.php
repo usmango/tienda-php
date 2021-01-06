@@ -1,6 +1,7 @@
 <?php
 $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 if(!isset($_SESSION['id'])) header('Location: .');
+if($uType=="normal") header('Location: .');
 
 $idproducto = $_GET['edit'];
 

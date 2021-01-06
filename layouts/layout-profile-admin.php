@@ -36,7 +36,7 @@ if(!isset($_SESSION['id'])) header('Location: .');
             </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
+      <a href="?page=orders" class="nav-link text-dark font-italic">
                 <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
                 Pedido
             </a>
@@ -70,6 +70,7 @@ if(isset($_GET['addProduct'])) {
   if($_GET['page'] == 'users') require('profile/profile-users.php'); 
   if($_GET['page'] == 'addUser') require('profile/profile-users-add.php');
   if($_GET['page'] == 'addProduct') require('profile/profile-products-add.php');
+  if($_GET['page'] == 'orders') require('profile/profile-orders.php');
 
 }  else {
   if(isset($_GET['edit'])) require('profile/profile-products-edit.php');

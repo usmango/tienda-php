@@ -14,8 +14,9 @@
 <?php require('layouts/layout-header.php'); ?>
 
 <main class="centrado">
-    
-<?php require('layouts/layout-profile-admin.php'); ?>
+
+<?php if($uType == "normal") require('layouts/layout-profile-user.php'); ?>
+<?php if($uType == "admin") require('layouts/layout-profile-admin.php'); ?>
 
 </main>
 

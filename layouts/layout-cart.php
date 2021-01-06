@@ -1,5 +1,7 @@
 <?php
 
+if(!isset($_SESSION['id'])) header('Location: login.php');
+
 $sqlCart = "SELECT id, p_id, products.product_title, products.product_image, products.product_price, qty
             FROM cart INNER JOIN products ON p_id=product_id
             WHERE user_id='$id'";

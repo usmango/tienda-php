@@ -1,6 +1,7 @@
 <?php
 $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 if(!isset($_SESSION['id'])) header('Location: .');
+if($uType=="normal") header('Location: .');
 
 $iduser = $_GET['editUser'];
 
@@ -15,7 +16,7 @@ if(isset($_POST['updateUser'])) {
   if(!empty($_POST['name'])) $name=$_POST['name']; else $name=$consultaUsuarioEditar->first_name;
   if(!empty($_POST['surname'])) $surname=$_POST['surname']; else $surname=$consultaUsuarioEditar->last_name;
   if(!empty($_POST['email'])) $email=$_POST['email']; else $email=$consultaUsuarioEditar->email;
-  if(!empty($_POST['password'])) $password=$_POST['password']; else $pass=false;
+  if(!empty($_POST['password'])) $password=password_hash($_POST['password'], PASSWORD_DEFAULT); else $pass=false;
   if(!empty($_POST['userType'])) $userType=$_POST['userType']; else $userType=$consultaUsuarioEditar->user_type;
   if(!empty($_POST['status'])) $status=$_POST['status']; else $status=$consultaUsuarioEditar->status;
 

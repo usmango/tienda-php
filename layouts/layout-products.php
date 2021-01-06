@@ -1,10 +1,18 @@
 <?php
-
+/***********************************************************************************************/
+/************************************        PAGINACIÓN   **************************************/
+/***********************************************************************************************/
 $sql = "SELECT * from products";
 $a1 = $db->query($sql);
 $num_row = $a1->num_rows;
 
-$cantidadDeProductos = 15;
+if(isset($_GET['cantidadProductos'])) {
+  $cantidadDeProductos=$_GET['cantidadProductosNum'];
+  $actualizarLink="&cantidadProductosNum=$cantidadDeProductos&cantidadProductos=GO";
+} else {
+  $actualizarLink="";
+  $cantidadDeProductos = 12;
+}
 
 $num_paginas = $num_row/$cantidadDeProductos;
 $num_paginas = ceil($num_paginas);
@@ -17,6 +25,9 @@ $primero = ($cantidadDeProductos*$pagina_actual)-$cantidadDeProductos;
 $sql2 = "SELECT * FROM products LIMIT $primero, $cantidadDeProductos";
 $a2 = $db->query($sql2);
 $consulta = $a2->fetch_object();
+/***********************************************************************************************/
+/***********************************************************************************************/
+/***********************************************************************************************/
 
 if(isset($_POST['add'])){
   $pID = $_POST['add'];
@@ -37,6 +48,26 @@ if(isset($_POST['add'])){
 }
 
 ?>
+
+<div class="row mt-3">
+  <div class="col"></div>
+  <div class="col"></div>
+  <div class="col"></div>
+  <div class="col">
+    <form action="products.php" method="get">
+      <div class="input-group">
+        <select class="custom-select" id="inputGroupSelect04" name="cantidadProductosNum">
+          <?php for ($i=1; $i <= 20; $i++) : ?>
+          <option value="<?=$i?>" <?php if($i==$cantidadDeProductos) echo "selected" ?>><?=$i?></option>
+          <?php endfor ?>
+        </select>
+        <div class="input-group-append">
+          <input type="submit" value="GO" class="btn btn-outline-secondary" name="cantidadProductos">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <section id="productos">
 
@@ -67,20 +98,20 @@ endwhile
   <ul class="pagination d-flex justify-content-center">
     <?php if($pagina_actual>1): ?>
     <li class="page-item">
-      <a class="page-link" href="?page=<?=$pagina_actual-1?>" aria-label="Previous">
+      <a class="page-link" href="?page=<?=$pagina_actual-1?><?=$actualizarLink?>" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
         <span class="sr-only">Previous</span>
       </a>
     </li>
     <?php endif ?>
     <?php for ($i=1; $i <= $num_paginas; $i++): ?>
-        
-    <li class="page-item"><a class="page-link" href="?page=<?=$i?>"><?= $i ?></a></li>
+    <?php if($pagina_actual==$i) $actual='active'; else $actual=''; ?>
+    <li class="page-item <?= $actual ?> "><a class="page-link" href="?page=<?=$i?><?=$actualizarLink?>" ><?= $i ?></a></li>
 
     <?php endfor ?>
     <?php if($pagina_actual<$num_paginas): ?>
     <li class="page-item">
-      <a class="page-link" href="?page=<?=$pagina_actual+1?>" aria-label="Next">
+      <a class="page-link" href="?page=<?=$pagina_actual+1?><?=$actualizarLink?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
       </a>

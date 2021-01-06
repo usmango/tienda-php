@@ -7,15 +7,21 @@ if(isset($_POST['login'])) {
 
   if(!isset($errores)) {
 
-    $sql = "SELECT user_id, email, password FROM user_info WHERE email='$email'";
+    $sql = "SELECT user_id, email, status, password FROM user_info WHERE email='$email'";
     $a1 = $db->query($sql);
     $consulta=$a1->fetch_object();
 
     if(mysqli_num_rows($a1) > 0){
 
-      if($password==$consulta->password) {
-        $_SESSION['id'] = $consulta->user_id;
-        header('Location: profile.php');
+      if(password_verify($password, $consulta->password)) {
+        if($consulta->status=="active") {
+          $_SESSION['id'] = $consulta->user_id;
+          header('Location: profile.php');
+        } else {
+          $errores['desactivada'] = 'Tu cuenta esta inhabilitada, contacta con un administrador';
+        }
+      } else {
+        $errores['existe']='Esa contraseña esta incorrecta';
       }
 
     } else {
@@ -37,6 +43,8 @@ if(isset($_POST['login'])) {
     <br>
     <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Iniciar sesión</button>
   </form>
+
+  <a href="register.php" class="btn btn-lg btn-secondary btn-block mt-1" >Registrarse</a>
 
 <ul>
   <?php 

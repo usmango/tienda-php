@@ -34,7 +34,7 @@ if(!isset($_SESSION['id'])) header('Location: .');
             </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link text-dark font-italic">
+      <a href="?page=orders" class="nav-link text-dark font-italic">
                 <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
                 Pedidos
             </a>
@@ -47,6 +47,7 @@ if(!isset($_SESSION['id'])) header('Location: .');
 <?php if(isset($_GET['page'])) {
 
 if($_GET['page'] == 'preferences') require('profile/profile-preferences.php'); 
+if($_GET['page'] == 'orders') require('profile/profile-orders.php'); 
 
 }  
 ?>

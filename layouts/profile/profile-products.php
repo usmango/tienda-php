@@ -1,6 +1,7 @@
 <?php
 
 if(!isset($_SESSION['id'])) header('Location: .');
+if($uType=="normal") header('Location: .');
 
 $sql = "SELECT * from products";
 $a1 = $db->query($sql);
@@ -22,7 +23,7 @@ $consulta = $a2->fetch_object();
 
 ?>
 
-<form action="profile.php" method="GET" class="text-right">
+<form action="profile.php" method="GET" class="text-right p-2">
     <button class="btn btn-success" name="page" value="addProduct">Añadir producto</button>
 </form>
 <section id="productosProfile">
@@ -62,8 +63,8 @@ endwhile
   </li>
   <?php endif ?>
   <?php for ($i=1; $i <= $num_paginas; $i++): ?>
-      
-  <li class="page-item"><a class="page-link" href="?page=products&pages=<?=$i?>"><?= $i ?></a></li>
+  <?php if($pagina_actual==$i) $actual='active'; else $actual=''; ?>
+  <li class="page-item <?= $actual ?> "><a class="page-link" href="?page=products&pages=<?=$i?>"><?= $i ?></a></li>
 
   <?php endfor ?>
   <?php if($pagina_actual<$num_paginas): ?>

@@ -17,6 +17,8 @@ if(isset($_SESSION['id'])) {
     $a1 = $db->query($sql);
     $consulta=$a1->fetch_object();
 
+    $uType = $consulta->user_type;
+
     $sql3 = "UPDATE cart SET user_id='$id' WHERE ssid='$ssid'";
     $db->query($sql3);
 

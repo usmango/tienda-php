@@ -12,7 +12,7 @@ if (isset($_POST['register'])) {
 	else $errores['email'] = 'Falta email';
 	if (!empty($_POST['password1']) && !empty($_POST['password2'])) {
 		if ($_POST['password1'] == $_POST['password2']){
-			 $password = $_POST['password1'];
+			 $password = password_hash($_POST['password1'], PASSWORD_DEFAULT);
 		} else {
 			$errores['password'] = 'Contraseñas diferentes';
 		}

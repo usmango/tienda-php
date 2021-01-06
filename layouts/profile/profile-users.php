@@ -1,5 +1,6 @@
 <?php
 if(!isset($_SESSION['id'])) header('Location: .');
+if($uType=="normal") header('Location: .');
 
 $sql = "SELECT * from user_info";
 $a1 = $db->query($sql);
@@ -22,14 +23,16 @@ $consulta = $a2->fetch_object();
 
 ?>
 
-<form action="profile.php" method="GET" class="text-right">
+
+<section id="profile" class="p-5">
+<form action="profile.php" method="GET" class="text-right mb-2">
     <button class="btn btn-success" name="page" value="addUser">Añadir usuario</button>
 </form>
-<section id="profile" class="p-5">
 
 <?php 
 while($consulta!=null): 
-if($consulta->status=="active") $status="alert-warning"; else $status="alert-danger";
+if($consulta->status=="active") $status="alert-info"; else $status="alert-danger";
+if($consulta->user_type=="admin") $status="alert-primary";
 ?>
 
 <div class="alert <?= $status ?> d-flex justify-content-between align-items-center" role="alert">
@@ -60,8 +63,8 @@ endwhile
   </li>
   <?php endif ?>
   <?php for ($i=1; $i <= $num_paginas; $i++): ?>
-      
-  <li class="page-item"><a class="page-link" href="?page=users&pages=<?=$i?>"><?= $i ?></a></li>
+  <?php if($pagina_actual==$i) $actual='active'; else $actual=''; ?>
+  <li class="page-item <?= $actual ?> "><a class="page-link" href="?page=users&pages=<?=$i?>"><?= $i ?></a></li>
 
   <?php endfor ?>
   <?php if($pagina_actual<$num_paginas): ?>
